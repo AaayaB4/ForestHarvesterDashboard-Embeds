@@ -1,6 +1,9 @@
 import React from 'react';
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+import { BrowserRouter, Routes, Route, useSearchParams, useParams, Navigate } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
+import EmbedChart from './components/EmbedChart';
+import { SensorData } from './types';
 
 const theme = createTheme({
   palette: {
@@ -57,11 +60,35 @@ const theme = createTheme({
   },
 });
 
+const EmbedRoute = () => {
+  const [params] = useSearchParams();
+  const { sensorKey: rawKey } = useParams();
+  const sensorKey = decodeURIComponent(rawKey || '') as keyof SensorData;
+  const type = (params.get('type') as 'line' | 'bar' | 'area') || 'line';
+  const compare = params.get('compare') as keyof SensorData | null;
+  const hideStatus = params.get('hideStatus') === '1' || params.get('hideStatus') === 'true';
+
+  return (
+    <EmbedChart
+      sensorKey={sensorKey}
+      chartType={type}
+      compareWith={compare || undefined}
+      hideStatus={hideStatus}
+    />
+  );
+};
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Dashboard />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/embed/:sensorKey" element={<EmbedRoute />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
