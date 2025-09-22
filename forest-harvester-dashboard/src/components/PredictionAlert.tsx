@@ -26,7 +26,7 @@ interface Props {
   }[];
 }
 
-const PredictionAlert: React.FC<Props> = ({ 
+function PredictionAlert({ 
   prediction, 
   confidence = 0.85,
   featureImportance = [
@@ -36,7 +36,7 @@ const PredictionAlert: React.FC<Props> = ({
     { name: 'Fuel Consumption', importance: 0.15 },
     { name: 'Blade Sharpness', importance: 0.05 },
   ]
-}) => {
+}: Props): React.ReactElement {
   const theme = useTheme();
 
   const getStatusInfo = (status: string) => {
@@ -257,6 +257,6 @@ const PredictionAlert: React.FC<Props> = ({
       </Box>
     </Fade>
   );
-};
+}
 
 export default PredictionAlert; 

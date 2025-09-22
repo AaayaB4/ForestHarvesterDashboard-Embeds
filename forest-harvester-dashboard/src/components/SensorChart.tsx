@@ -23,7 +23,7 @@ interface Props {
   status?: 'green' | 'yellow' | 'red';
 }
 
-const SensorChart: React.FC<Props> = ({
+function SensorChart({
   data,
   compareData,
   label,
@@ -34,7 +34,7 @@ const SensorChart: React.FC<Props> = ({
   max,
   chartType,
   status,
-}) => {
+}: Props) {
   const theme = useTheme();
 
   // Memoize chart data to prevent unnecessary recalculations
@@ -213,7 +213,7 @@ const SensorChart: React.FC<Props> = ({
                       tickSize: 5,
                       tickPadding: 5,
                       tickRotation: 0,
-                      format: (value) => `${value.toFixed(1)}${unit}`,
+                      format: (value: number) => `${value.toFixed(1)}${unit}`,
                     }}
                     axisBottom={{
                       tickSize: 5,
@@ -234,7 +234,7 @@ const SensorChart: React.FC<Props> = ({
                           borderRadius: '4px',
                         }}
                       >
-                        <strong>{String(props.id)}</strong>: {props.value} {unit}
+                        <Typography component="span" sx={{ fontWeight: 600 }}>{String(props.id)}</Typography>: {props.value} {unit}
                       </Box>
                     )}
                   />
@@ -258,7 +258,7 @@ const SensorChart: React.FC<Props> = ({
                       tickSize: 5,
                       tickPadding: 5,
                       tickRotation: 0,
-                      format: (value) => `${value.toFixed(1)}${unit}`,
+                      format: (value: number) => `${value.toFixed(1)}${unit}`,
                     }}
                     enablePoints={chartType === 'line'}
                     pointSize={6}
@@ -313,7 +313,7 @@ const SensorChart: React.FC<Props> = ({
                         },
                       },
                     }}
-                    sliceTooltip={({ slice }) => (
+                    sliceTooltip={({ slice }: { slice: any }) => (
                       <Box
                         sx={{
                           background: theme.palette.background.paper,
@@ -325,7 +325,7 @@ const SensorChart: React.FC<Props> = ({
                         <Typography variant="caption" sx={{ color: theme.palette.text.secondary }}>
                           {String(slice.points[0].data.x)}
                         </Typography>
-                        {slice.points.map((point) => (
+                        {slice.points.map((point: any) => (
                           <Box
                             key={point.id}
                             sx={{
@@ -397,6 +397,6 @@ const SensorChart: React.FC<Props> = ({
       </Box>
     </Paper>
   );
-};
+}
 
 export default SensorChart; 

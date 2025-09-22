@@ -53,7 +53,7 @@ const customTheme = createTheme({
 const MAX_HISTORY_POINTS = 30; // Increased for smoother visualization
 const UPDATE_INTERVAL = 1000; // 1 second interval
 
-const Dashboard: React.FC = () => {
+function Dashboard() {
   const theme = useTheme();
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<ApiResponse | null>(null);
@@ -416,6 +416,6 @@ const Dashboard: React.FC = () => {
       </Box>
     </ThemeProvider>
   );
-};
+}
 
 export default Dashboard; 
