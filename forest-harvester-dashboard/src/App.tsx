@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
 import { BrowserRouter, Routes, Route, useSearchParams, useParams, Navigate } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
+import MachineEmbed from './components/MachineEmbed';
 import EmbedChart from './components/EmbedChart';
 import { SensorData } from './types';
 
@@ -86,6 +87,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/embed/:sensorKey" element={<EmbedRoute />} />
+          <Route path="/machine" element={<MachineEmbed />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
