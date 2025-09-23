@@ -11,8 +11,8 @@
         { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "Origin, X-Requested-With, Content-Type, Accept, Authorization" },
         { "key": "Access-Control-Max-Age", "value": "86400" },
-        { "key": "X-Frame-Options", "value": "ALLOWALL" },
-        { "key": "Content-Security-Policy", "value": "frame-ancestors https://www.thinglink.com https://*.thinglink.com 'self';" }
+        { "key": "Content-Security-Policy", "value": "frame-ancestors 'self' https://www.thinglink.com https://*.thinglink.com http://localhost:3000 http://localhost:8080;" },
+        { "key": "Permissions-Policy", "value": "accelerometer=(), camera=(), geolocation=(), microphone=(), payment=()" }
       ]
     }
   ]
