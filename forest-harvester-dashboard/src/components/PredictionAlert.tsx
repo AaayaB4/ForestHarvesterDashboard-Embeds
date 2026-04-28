@@ -41,6 +41,7 @@ function PredictionAlert({
 
   const getStatusInfo = (status: string) => {
     switch (status) {
+      case 'Normal':
       case 'Normal Operation':
         return {
           icon: <CheckCircleRounded sx={{ fontSize: 32, color: '#fff' }} />,
@@ -50,6 +51,7 @@ function PredictionAlert({
           description: 'All systems are functioning within normal parameters',
           recommendation: 'Continue regular monitoring',
         };
+      case 'Warning':
       case 'Maintenance Recommended':
         return {
           icon: <WarningRounded sx={{ 

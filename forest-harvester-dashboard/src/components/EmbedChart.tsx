@@ -3,6 +3,7 @@ import { Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import SensorChart from './SensorChart';
 import { sensorConfig } from '../config/sensorConfig';
 import { ApiResponse, HistoricalDataPoint, SensorData } from '../types';
+import { buildSimulatedSensorData, calculateSensorColors } from '../api/sensors';
 
 const lightTheme = createTheme({
   palette: {
@@ -43,22 +44,13 @@ function EmbedChart({ sensorKey, chartType, compareWith, hideStatus }: EmbedChar
   const generateMockData = useCallback(() => {
     const currentTime = Date.now();
     const timeDiff = (currentTime - timeRef.current) / 1000;
+    const sensorData = buildSimulatedSensorData(timeDiff);
     const mockData: ApiResponse = {
-      sensor_data: [{
-        Hydraulic_Pressure: 200 + Math.sin(timeDiff) * 25,
-        Hydraulic_Oil_Temperature: 50 + Math.sin(timeDiff * 0.5) * 10,
-        Saw_Blade_RPM: 1500 + Math.sin(timeDiff * 0.3) * 250,
-        Fuel_Consumption: 15 + Math.sin(timeDiff * 0.2) * 2.5,
-        Blade_Sharpness_Level: 70 + Math.sin(timeDiff * 0.1) * 10,
-      }],
-      color: [{
-        Hydraulic_Pressure: 'green',
-        Hydraulic_Oil_Temperature: 'green',
-        Saw_Blade_RPM: 'green',
-        Fuel_Consumption: 'green',
-        Blade_Sharpness_Level: 'green',
-      }],
-      prediction: 'Normal Operation',
+      sensor_data: [sensorData],
+      color: [calculateSensorColors(sensorData)],
+      prediction: 'Normal',
+      predictionClass: 0,
+      predictionColor: 'green',
       confidence: 0.85,
       feature_importance: [
         { name: 'Hydraulic Pressure', importance: 0.35 },
@@ -68,14 +60,6 @@ function EmbedChart({ sensorKey, chartType, compareWith, hideStatus }: EmbedChar
         { name: 'Blade Sharpness', importance: 0.05 },
       ],
     };
-
-    Object.entries(mockData.sensor_data[0]).forEach(([key, value]) => {
-      const k = key as keyof SensorData;
-      const cfg = sensorConfig[k];
-      const normalized = (value - cfg.min) / (cfg.max - cfg.min);
-      if (normalized < 0.2 || normalized > 0.8) mockData.color[0][k] = 'red';
-      else if (normalized < 0.3 || normalized > 0.7) mockData.color[0][k] = 'yellow';
-    });
 
     return mockData;
   }, []);
@@ -131,5 +115,4 @@ function EmbedChart({ sensorKey, chartType, compareWith, hideStatus }: EmbedChar
 }
 
 export default EmbedChart;
-
 
