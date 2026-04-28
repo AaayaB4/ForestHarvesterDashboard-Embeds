@@ -2,8 +2,11 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+jest.mock('./components/Dashboard', () => () => <div>Forest Harvester Head Performance</div>);
+jest.mock('./components/MachineEmbed', () => () => <div>Machine Embed</div>);
+jest.mock('./components/EmbedChart', () => () => <div>Embed Chart</div>);
+
+test('renders the dashboard route', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByText(/Forest Harvester Head Performance/i)).toBeInTheDocument();
 });
